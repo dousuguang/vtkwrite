@@ -17,7 +17,7 @@ if the data is defined at cells or elements, you can use
 
 if you've already setup system path to include the folder containing the ParaView binary, you can invoke ParaView directly by 
 
-    vtkwrite('execute', 'structured_cells', 'mri', D)
+    vtkwrite('execute', 'structured_points', 'mri', D)
 
 In this case, a file named 'matlab_export.vtk' is saved and passed on to ParaView.
 
