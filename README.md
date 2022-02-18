@@ -11,9 +11,13 @@ Example 1 : export 3D array (typical of an image volume )
     D = squeeze(D);  
     vtkwrite('mri.vtk', 'structured_points', 'mri', D)  
 
+if the data is defined at cells or elements, you can use
+
+    vtkwrite('mri.vtk', 'structured_cells', 'mri', D)  
+
 if you've already setup system path to include the folder containing the ParaView binary, you can invoke ParaView directly by 
 
-    vtkwrite('execute', 'structured_points', 'mri', D)
+    vtkwrite('execute', 'structured_cells', 'mri', D)
 
 In this case, a file named 'matlab_export.vtk' is saved and passed on to ParaView.
 
