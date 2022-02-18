@@ -80,7 +80,47 @@ else
 end
 
 switch upper(dataType)
-    case 'STRUCTURED_POINTS'
+        case 'STRUCTURED_CELLS'
+        title = varargin{1};
+        m = varargin{2};
+        if any(strcmpi(varargin, 'spacing'))
+            sx = varargin{find(strcmpi(varargin, 'spacing'))+1};
+            sy = varargin{find(strcmpi(varargin, 'spacing'))+2};
+            sz = varargin{find(strcmpi(varargin, 'spacing'))+3};
+        else
+            sx = 1;
+            sy = 1;
+            sz = 1;
+        end
+        if any(strcmpi(varargin, 'origin'))
+            ox = varargin{find(strcmpi(varargin, 'origin'))+1};
+            oy = varargin{find(strcmpi(varargin, 'origin'))+2};
+            oz = varargin{find(strcmpi(varargin, 'origin'))+3};
+        else
+            ox = 0;
+            oy = 0;
+            oz = 0;
+        end
+        [nx, ny, nz] = size(m);
+        setdataformat(fid, binaryflag);
+        
+        fprintf(fid, 'DATASET STRUCTURED_POINTS\n');
+        fprintf(fid, 'DIMENSIONS %d %d %d\n', nx+1, ny+1, nz+1);
+        fprintf(fid, ['SPACING ', num2str(sx), ' ', num2str(sy), ' ',...
+            num2str(sz), '\n']);
+        fprintf(fid, ['ORIGIN ', num2str(ox), ' ', num2str(oy), ' ',...
+            num2str(oz), '\n']); 
+        fprintf(fid, 'CELL_DATA %d\n', nx*ny*nz);
+        fprintf(fid, ['SCALARS ', title, ' float\n']);
+        fprintf(fid,'LOOKUP_TABLE default\n');
+        if ~binaryflag 
+            spec = ['%0.', precision, 'f '];
+            fprintf(fid, spec, m(:)');
+        else
+            fwrite(fid, m(:)', 'float', 'b');
+        end
+        
+    case 'STRUCTURED_POINTS' 
         title = varargin{1};
         m = varargin{2};
         if any(strcmpi(varargin, 'spacing'))
@@ -111,7 +151,7 @@ switch upper(dataType)
         fprintf(fid, ['ORIGIN ', num2str(ox), ' ', num2str(oy), ' ',...
             num2str(oz), '\n']); 
         fprintf(fid, 'POINT_DATA %d\n', nx*ny*nz);
-        fprintf(fid, ['SCALARS ', title, ' float 1\n']);
+        fprintf(fid, ['SCALARS ', title, ' float\n']);
         fprintf(fid,'LOOKUP_TABLE default\n');
         if ~binaryflag 
             spec = ['%0.', precision, 'f '];
@@ -224,7 +264,7 @@ switch upper(dataType)
         end     
 end
 
-if ~strcmpi(dataType,'STRUCTURED_POINTS')
+if ~strcmpi(dataType,'STRUCTURED_POINTS') && ~strcmpi(dataType,'STRUCTURED_CELLS')
     % 5.This final part describe the dataset attributes and begins with the
     % keywords 'POINT_DATA' or 'CELL_DATA', followed by an integer number
     % specifying the number of points of cells. Other keyword/data combination
