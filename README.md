@@ -63,3 +63,5 @@ The usage of vector and scalar field input is the same as built-in quiver3 and s
 In Paraview, press 'ctrl+o' to open file. Then on properties page immediately below pipeline browser, click 'Apply'. For line and polygon data, you should already see the correct representation of data. For 3D vector field, you have to further click on 'glyph' in the common toolbar, then choose the glyph object in the pipeline browser and click 'Apply'.
 
 See file for more details on usage.
+
+Contributors: Joe Yeh, James Avery, Alessandro Arduino, Suguang Dou.
